@@ -1,0 +1,10 @@
+.base-info {
+    cursor: pointer;
+    margin-right: 15px;
+    &>div {
+        padding: 0 12px;
+    }
+    &:hover {
+        background-color: #70b3ea;
+    }
+}

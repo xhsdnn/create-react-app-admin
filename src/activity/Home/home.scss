@@ -1,0 +1,37 @@
+@mixin transition {
+    transition: all .2s
+}
+
+.home {
+    height: 100%;
+    &>div {
+        min-height: 100%;
+    }
+    .logo {
+        color: #fff;
+        text-align: center;
+        height: 32px;
+        margin: 16px;
+        line-height: 32px;
+        background: rgba(255, 255, 255, .2);
+    }
+    .trigger {
+        font-size: 18px;
+        line-height: 64px;
+        padding: 0 24px;
+        cursor: pointer;
+        transition: color .3s;
+        &:hover {
+            color: #1890ff;
+        }
+    }
+    // 控制content区域随侧边栏变化
+    .collapsed {
+        margin-left: 80px;
+        @include transition;
+    }
+    .uncollapsed {
+        margin-left: 200px;
+        @include transition;
+    }
+}

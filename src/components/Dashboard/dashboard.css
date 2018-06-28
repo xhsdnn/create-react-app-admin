@@ -1,0 +1,23 @@
+.dashboard .dashboard-row {
+  margin-top: 20px; }
+
+.dashboard .dashboard-item {
+  background-color: #338bea;
+  color: #fff;
+  text-align: center;
+  height: 60px;
+  line-height: 60px; }
+
+.dashboard .ant-carousel .slick-slide {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden; }
+
+.dashboard .ant-carousel .slick-slide h3 {
+  color: #fff; }
+
+.dashboard img {
+  width: 100%;
+  display: inline-block; }
