@@ -5,7 +5,7 @@ class AreaChart extends React.Component {
   render() {
     return (
       <div className="area-chart">
-        <span>area-chart</span>
+        <div className="area"></div>
       </div>
     );
   }
