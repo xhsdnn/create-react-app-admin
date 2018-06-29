@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './login.css'
 
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 const FormItem = Form.Item;
 
 class Login extends React.Component {
@@ -13,13 +13,18 @@ class Login extends React.Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        this.props.history.push('/home');
-        // this.props.form.validateFields((err, values) => {
-        //     if (!err) {
-        //         console.log('Received values of form: ', values);
-        //         this.props.history.push('/home');
-        //     }
-        // });
+        // this.props.history.push('/home');
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                if (values.userName === "xhsdnn" && values.password === "123456") {
+                    this.props.history.push('/home');
+                } else {
+                    message.error("用户名或密码错误！");
+                }
+            } else {
+                message.error(err);
+            }
+        });
     }
     render() {
         const { getFieldDecorator } = this.props.form;

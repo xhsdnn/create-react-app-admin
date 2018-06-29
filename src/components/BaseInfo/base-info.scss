@@ -8,3 +8,17 @@
         background-color: #70b3ea;
     }
 }
+
+.info-detail {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    li {
+        list-style-type: none;
+        padding: 5px;
+        .title {
+            display: inline-block;
+            width: 80px;
+        }
+    }
+}
