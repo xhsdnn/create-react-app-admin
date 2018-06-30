@@ -2,35 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './base-info.css';
 
+import { DB } from "../../utils/session.js"
+
 import { Menu, Dropdown, Icon, Modal, Avatar } from 'antd';
 
-// 基本信息数据
-const detailData = [
-    {
-        title: "头像：",
-        detail: "Avatar"
-    },
-    {
-        title: "用户名：",
-        detail: "xhsdnn"
-    },
-    {
-        title: "手机号：",
-        detail: "16619779X4X"
-    },
-    {
-        title: "github：",
-        detail: "https://github.com/xhsdnn"
-    },
-    {
-        title: "E-mail：",
-        detail: "daiqiangsummy@gmail.com"
-    },
-    {
-        title: "级别：",
-        detail: "管理员"
-    }
-];
 // 基本信息列表内容
 function Detail(props) {
     return <li>
@@ -40,15 +15,46 @@ function Detail(props) {
         </span>
     </li>
 }
-const details = detailData.map((item, index) => <Detail key={index} data={item} />)
 
 class BaseInfo extends React.Component {
     constructor() {
         super();
-        this.state = { visible: false };
+        this.state = {
+            visible: false,
+            currentUser: "",
+            detailData: []
+        };
         this.showInfoDialog = this.showInfoDialog.bind(this);
         this.hideInfoDialog = this.hideInfoDialog.bind(this);
         this.confirmInfoDialog = this.confirmInfoDialog.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            currentUser: DB.show('currentUser'),
+            detailData: [
+                {
+                    title: "头像：",
+                    detail: "Avatar"
+                },
+                {
+                    title: "用户名：",
+                    detail: DB.show('currentUser')
+                },
+                {
+                    title: "手机号：",
+                    detail: DB.show(DB.show('currentUser')).phone
+                },
+                {
+                    title: "E-mail：",
+                    detail: DB.show(DB.show('currentUser')).email
+                },
+                {
+                    title: "级别：",
+                    detail: "管理员"
+                }
+            ]
+        });
     }
 
     showInfoDialog() {
@@ -86,7 +92,7 @@ class BaseInfo extends React.Component {
             <div className="base-info">
                 <Dropdown overlay={menu}>
                     <div className="ant-dropdown-link" href="#">
-                        <Icon type="github" /> xhsdnn
+                        <Icon type="github" /> {this.state.currentUser}
                     </div>
                 </Dropdown>
                 {/* dialog对话框 */}
@@ -97,15 +103,7 @@ class BaseInfo extends React.Component {
                     onCancel={this.hideInfoDialog}
                 >
                     <ul className="info-detail">
-                        {details}
-                        {/* <li>
-                            <span className="title">头像：</span>
-                            <span className="detail"><Avatar icon="user" /></span>
-                        </li>
-                        <li>
-                            <span className="title">用户名：</span>
-                            <span className="detail">xhsdnn</span>
-                        </li> */}
+                        {this.state.detailData.map((item, index) => <Detail key={index} data={item} />)}
                     </ul>
                 </Modal>
             </div>

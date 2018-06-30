@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 
 import './login.css'
 
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
+import { DB } from "../../utils/session.js"
+
+import { Form, Icon, Input, Button, Checkbox, message, Tooltip } from 'antd';
 const FormItem = Form.Item;
 
 class Login extends React.Component {
@@ -13,10 +15,19 @@ class Login extends React.Component {
     }
     handleSubmit(e) {
         e.preventDefault();
-        // this.props.history.push('/home');
+
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                if (values.userName === "xhsdnn" && values.password === "123456") {
+                let userInfo = DB.show(values.userName);
+                if(!userInfo) {
+                    message.error("用户不存在！");
+                    return;
+                }
+
+                if (values.password === userInfo.password) {
+                    // 设置当前用户
+                    DB.create("currentUser", values.userName);
+                    
                     this.props.history.push('/home');
                 } else {
                     message.error("用户名或密码错误！");
@@ -39,6 +50,14 @@ class Login extends React.Component {
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
                             )}
+                            <Tooltip title={
+                                <div>
+                                    <div>默认用户名：xhsdnn，密码：123456</div>
+                                    <div>可以使用注册成功的用户名和密码！</div>
+                                </div>
+                            }>
+                                <Icon className="info-tip" type="info-circle-o" />
+                            </Tooltip>
                         </FormItem>
                         <FormItem>
                             {getFieldDecorator('password', {

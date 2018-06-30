@@ -13,6 +13,10 @@
     max-width: 300px; }
     .login .login-content .login-form-button {
       width: 100%; }
+    .login .login-content .info-tip {
+      position: absolute;
+      top: 2px;
+      right: -20px; }
   .login .login-footer {
     position: fixed;
     bottom: 15px;
