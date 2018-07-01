@@ -5,6 +5,11 @@ import './login.css'
 
 import { DB } from "../../utils/session.js"
 
+// redux
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { setCurrentUser } from '../../redux/actions'
+
 import { Form, Icon, Input, Button, Checkbox, message, Tooltip } from 'antd';
 const FormItem = Form.Item;
 
@@ -13,13 +18,14 @@ class Login extends React.Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     handleSubmit(e) {
         e.preventDefault();
 
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 let userInfo = DB.show(values.userName);
-                if(!userInfo) {
+                if (!userInfo) {
                     message.error("用户不存在！");
                     return;
                 }
@@ -28,12 +34,15 @@ class Login extends React.Component {
                     // 设置当前用户
                     DB.create("currentUser", values.userName);
                     
+                    // 同时使用redux保存当前用户名
+                    this.props.setCurrentUser(values.userName);
+                    // 使用redux获取state
+                    let stateData = this.props.showUserState;
+
                     this.props.history.push('/home');
                 } else {
                     message.error("用户名或密码错误！");
                 }
-            } else {
-                message.error(err);
             }
         });
     }
@@ -46,7 +55,7 @@ class Login extends React.Component {
                     <Form onSubmit={this.handleSubmit} className="login-form">
                         <FormItem>
                             {getFieldDecorator('userName', {
-                                rules: [{ required: true, message: 'Please input your username!' }],
+                                rules: [{ required: true, message: '请输入用户名!' }],
                             })(
                                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username" />
                             )}
@@ -61,7 +70,7 @@ class Login extends React.Component {
                         </FormItem>
                         <FormItem>
                             {getFieldDecorator('password', {
-                                rules: [{ required: true, message: 'Please input your Password!' }],
+                                rules: [{ required: true, message: '请输入密码!' }],
                             })(
                                 <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" />
                             )}
@@ -90,4 +99,19 @@ class Login extends React.Component {
     }
 }
 
-export default Form.create()(Login);
+function mapStateToProps(state, ownProps) {
+    return {
+        showUserState: state.users
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setCurrentUser: bindActionCreators(setCurrentUser, dispatch)
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Form.create()(Login));

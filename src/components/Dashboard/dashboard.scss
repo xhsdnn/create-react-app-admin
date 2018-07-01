@@ -3,11 +3,20 @@
         margin-top: 20px;
     }
     .dashboard-item {
-        background-color: #338bea;
-        color: #fff;
-        text-align: center;
+        background-color: #f3f5f8;
+        color: #000;
         height: 60px;
-        line-height: 60px;
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        span {
+            color: rgba(0,0,0,.45);
+        }
+        .dashboard-item__amount {
+            font-size: 20px;
+        }
     }
     .ant-carousel .slick-slide {
         text-align: center;

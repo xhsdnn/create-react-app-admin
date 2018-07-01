@@ -10,20 +10,50 @@ import lufei from "../../static/images/lufei.jpeg"
 import onepiece from "../../static/images/onepiece.jpeg"
 
 // dashboard基本组件
-const dashboardDatas = ["A","B","C","D"];
+const dashboardDatas = [
+  {
+    title: "访问量",
+    msg: {
+      amount: 67800
+    }
+  },
+  {
+    title: "下载量",
+    msg: {
+      amount: 34433
+    }
+  },
+  {
+    title: "安装量",
+    msg: {
+      amount: 34527
+    }
+  },
+  {
+    title: "留言",
+    msg: {
+      amount: 4797
+    }
+  }
+];
 
 function BashboardItem(props) {
-  return <Col className="dashboard-item" span={4}>{props.data}</Col>
+  return <Col className="dashboard-item" xs={{span:10}} sm={{span:10}} lg={{span:4}}>
+    <div>
+      <span>{props.data.title}</span>
+      <div className="dashboard-item__amount">{props.data.msg.amount}</div>
+    </div>
+  </Col>
 }
-const bashboardItems = dashboardDatas.map((item, index) => <BashboardItem key={index} data={item}/>)
+const bashboardItems = dashboardDatas.map((item, index) => <BashboardItem key={index} data={item} />)
 
 // 轮播图片
 const imgs = [onepiece, suolong, aisi, lufei];
 
 function CarouselImg(props) {
-  return <img src={props.url} alt=""/>
+  return <img src={props.url} alt="" />
 }
-const CarouselImgs = imgs.map((img, index) => <CarouselImg key={index} url={img}/>)
+const CarouselImgs = imgs.map((img, index) => <CarouselImg key={index} url={img} />)
 
 class Dashboard extends React.Component {
   render() {

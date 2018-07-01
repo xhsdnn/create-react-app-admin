@@ -23,10 +23,10 @@ class Register extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault();
-    // this.props.history.push('/');
+
     this.props.form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        // console.log('Received values of form: ', values);
         if (!values.agreement) {
           message.warning("请同意用户协议！");
         } else {
